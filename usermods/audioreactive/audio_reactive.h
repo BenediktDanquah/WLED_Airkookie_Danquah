@@ -138,7 +138,7 @@ static void postProcessFFTResults(bool noiseGateOpen, int numberOfChannels); // 
 static TaskHandle_t FFT_Task = nullptr;
 
 // Table of multiplication factors so that we can even out the frequency response.
-static float fftResultPink[NUM_GEQ_CHANNELS] = { 1.70f, 1.71f, 1.73f, 1.78f, 1.68f, 1.56f, 1.55f, 1.63f, 1.79f, 1.62f, 1.80f, 2.06f, 2.47f, 3.35f, 6.83f, 9.55f };
+static float fftResultPink[NUM_GEQ_CHANNELS] = {0.5,0.5,0.5,1,1.2,1.2,0.7,0.5,0.5,0.5,0.5,1,1,1,1,1};
 
 // globals and FFT Output variables shared with animations
 static float FFT_MajorPeak = 1.0f;              // FFT: strongest (peak) frequency
@@ -896,7 +896,7 @@ class AudioReactive : public Usermod {
       sampleReal = tmpSample;
 
       sampleAdj = fmax(fmin(sampleAdj, 255), 0);        // Question: why are we limiting the value to 8 bits ???
-      sampleRaw = (int16_t)sampleAdj;                   // ONLY update sample ONCE!!!!
+      sampleRaw = (int16_t)sampleAdj/3;                   // ONLY update sample ONCE!!!!
 
       // keep "peak" sample, but decay value if current sample is below peak
       if ((sampleMax < sampleReal) && (sampleReal > 0.5f)) {
